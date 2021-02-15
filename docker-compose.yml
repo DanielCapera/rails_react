@@ -1,0 +1,20 @@
+version: '2'
+services:
+  web:
+    working_dir: /rails_react
+    build: .
+    volumes:
+      - "./:/rails_react"
+    command: "bin/rails s -b '0.0.0.0' -p 3001"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - database_rails_react
+    links:
+      - database_rails_react:database_rails_react
+  database_rails_react:
+    image: postgres:12
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - "./.data/postgres:/var/lib/postgresql/data"
